@@ -1,0 +1,33 @@
+{
+  "name": "@stexcore/PrimeMSG-Server",
+  "version": "1.0.0",
+  "description": "PrimeMSG-Server will serve as the backend for PrimeMSG, managing all operations required by the frontend. It will handle authentication, message routing, real-time WebSocket communication, data storage, and API interactions, ensuring efficiency and scalability while maintaining a centralized architecture for seamless integration.",
+  "scripts": {
+    "start": "node ./dist/index.js",
+    "build": "tsc",
+    "dev": "nodemon ./src/index.ts",
+    "test": "ts-node ./src/index.ts"
+  },
+  "keywords": [
+    "api",
+    "http",
+    "express",
+    "stexcore",
+    "server"
+  ],
+  "license": "ISC",
+  "dependencies": {
+    "@stexcore/http-status": "^1.0.1",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "joi": "^17.13.3",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.1",
+    "@types/morgan": "^1.9.9",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}
