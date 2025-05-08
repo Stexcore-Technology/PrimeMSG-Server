@@ -7,6 +7,8 @@ import infoRouter from "./routers/info.router";
 import InfoService from "./services/info.service";
 import morganMiddleware from "./middlewares/morgan.middleware";
 import path from "path";
+import SMTPService from "./services/smtp.service";
+import AuthService from "./services/auth.service";
 
 export default class Server {
 
@@ -34,6 +36,8 @@ export default class Server {
 
         // Register services
         this.registerService(InfoService);
+        this.registerService(SMTPService);
+        this.registerService(AuthService);
 
         // Append middlewares
         this.app.use(morganMiddleware);

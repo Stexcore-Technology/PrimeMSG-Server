@@ -1,6 +1,8 @@
 import { readFileSync } from "fs";
 import nodemailer from "nodemailer";
 import path from "path";
+import Service from "../class/service";
+import Server from "../server";
 
 /**
  * Email options
@@ -51,7 +53,7 @@ type ILoadTemplate =
 /**
  * SMTP Service
  */
-export default new class SMTPService {
+export default class SMTPService extends Service {
 
   /**
    * transporter SMTP
@@ -61,7 +63,8 @@ export default new class SMTPService {
   /**
    * Initialize service
    */
-  constructor() {
+  constructor(server: Server) {
+    super(server);
 
     // Settings Client SMTP
     this.transporter = nodemailer.createTransport({

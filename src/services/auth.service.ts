@@ -5,6 +5,8 @@ import User from "../models/user.model";
 import Session from "../models/session.model";
 import Instance, { type IInstance } from "../models/instance.model";
 import type { ILangType } from "../types/lang";
+import Service from "../class/service";
+import SMTPService from "./smtp.service";
 
 /**
  * Session info
@@ -39,7 +41,7 @@ export interface ISessionInfo {
 /**
  * Authentication service
  */
-export default new class AuthService {
+export default class AuthService extends Service {
 
     /**
      * Exists another account error
@@ -55,6 +57,11 @@ export default new class AuthService {
      * User not found error
      */
     readonly UserNotFoundError = class extends Error { };
+
+    /**
+     * Get SMTP Service
+     */
+    private readonly smtp = this.server.getService(SMTPService);
 
     /**
      * Create a request to create and send a verification link to email
@@ -116,7 +123,7 @@ export default new class AuthService {
         );
 
         // Send email
-        await smtpService.sendMail(data.email, {
+        await this.smtp.sendMail(data.email, {
             template: "tcp-signin",
             username: data.username,
             link_verification: new URL(`/${data.langType}/auth/signup/` + encodeURIComponent(token), url).href,

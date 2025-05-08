@@ -1,9 +1,10 @@
+import Service from "../class/service";
 import Instance from "../models/instance.model"
 
 /**
  * Manage instances service
  */
-export default new class InstancesService {
+export default class InstancesService extends Service {
 
     /**
      * Get All instances
