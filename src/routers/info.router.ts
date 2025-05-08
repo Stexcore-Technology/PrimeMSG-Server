@@ -15,7 +15,7 @@ export default function infoRouter(server: Server) {
     const infoController = new InfoController(server);
 
     // Append endpoint
-    router.get("/", schemaMiddleware(infoSchema.GET), infoController.GetInformation);
+    router.get("/", infoSchema.GET, infoController.GetInformation);
     
     return router;
 }

@@ -1,6 +1,7 @@
 import { Router } from "express";
 import Server from "../server";
 import AuthController from "../controllers/auth.controller";
+import authSchema from "../schemas/auth.schema";
 
 /**
  * Make a router to auth segment
@@ -13,6 +14,7 @@ export default function authRouter(server: Server) {
     const authController = new AuthController(server);
 
     // Append endpoint
+    router.post("/signup", authSchema.signup.POST, authController.Signup);
     
     return router;
 }
