@@ -15,6 +15,7 @@ export default function authRouter(server: Server) {
 
     // Append endpoint
     router.post("/signup", authSchema.signup.POST, authController.Signup);
+    router.post("/signup/:tcp", authSchema.signup.tcp.POST, authController.VerifySignup);
     
     return router;
 }

@@ -10,6 +10,21 @@ export default {
      * Auth segment
      */
     signup: {
+
+        /**
+         * Tcp segment
+         */
+        tcp: {
+            /**
+             * Schema to validate
+             */
+            POST: schemaUtils.createSchema({
+                params: Joi.object({
+                    tcp: Joi.string().required()
+                })
+            })
+        },
+        
         /**
          * Schema to validate
          */
