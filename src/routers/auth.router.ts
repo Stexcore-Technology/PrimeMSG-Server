@@ -13,9 +13,15 @@ export default function authRouter(server: Server) {
     // Create controller instance
     const authController = new AuthController(server);
 
-    // Append endpoint
+    // Append endpoint ...............
+
+    // SignUp
     router.post("/signup", authSchema.signup.POST, authController.Signup);
     router.post("/signup/:tcp", authSchema.signup.tcp.POST, authController.VerifySignup);
+
+    // SignIn
+    router.get("/signin", authSchema.signin.GET, authController.GetCurrentSession);
+    router.post("/signin", authSchema.signin.POST, authController.Login);
     
     return router;
 }

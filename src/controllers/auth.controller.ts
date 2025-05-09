@@ -63,5 +63,57 @@ export default class AuthController extends Controller {
             next(err);
         }
     }
+
+    /**
+     * Login to account using email and password
+     * @param req Request incomming
+     * @param res Response utils
+     * @param next Next middleware
+     */
+    Login: RequestHandler = async (req, res, next) => {
+        try {
+            // Extract vars
+            const { email, password } = req.body;
+            
+            // Try to login to account
+            const session = await this.auth.Login(email, password);
+
+            // Send response
+            res.json({
+                success: true,
+                message: "Account logged in!",
+                data: session
+            });
+        }
+        catch(err) {
+            next(err);
+        }
+    }
+
+    /**
+     * Get current session using authorization
+     * @param req Request incomming
+     * @param res Response utils
+     * @param next Next middleware
+     */
+    GetCurrentSession: RequestHandler = async (req, res, next) => {
+        try {
+            // Get token session
+            const authorization = req.headers.authorization!;
+
+            // Try to get current session
+            const session = await this.auth.getSessionInfoByToken(authorization);
+
+            // Send response
+            res.json({
+                success: true,
+                message: "Account logged!",
+                data: session
+            });
+        }
+        catch(err) {
+            next(err);
+        }
+    }
     
 }

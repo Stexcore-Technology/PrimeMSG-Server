@@ -1,5 +1,4 @@
 import UserUnauthorized from "../models/user-unauthorized.model"
-import smtpService from "./smtp.service";
 import jwt from "jsonwebtoken";
 import User from "../models/user.model";
 import Session from "../models/session.model";

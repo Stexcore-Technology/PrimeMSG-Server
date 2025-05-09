@@ -7,7 +7,7 @@ import schemaUtils from "../utils/schema.utils";
 export default {
 
     /**
-     * Auth segment
+     * Signup segment
      */
     signup: {
 
@@ -35,6 +35,29 @@ export default {
                 langType: Joi.string().length(2).lowercase().required(),
                 email: Joi.string().email().required(),
                 password: Joi.string().min(8).max(40).required(),
+            })
+        })
+    },
+
+    /**
+     * Signin segment
+     */
+    signin: {
+        /**
+         * Get current session
+         */
+        GET: schemaUtils.createSchema({
+            headers: Joi.object({
+                authorization: Joi.required()
+            })
+        }),
+        /**
+         * Signin to account using email and password
+         */
+        POST: schemaUtils.createSchema({
+            headers: Joi.object({
+                email: Joi.string().email().required(),
+                password: Joi.string().min(8).max(40).required()
             })
         })
     }
