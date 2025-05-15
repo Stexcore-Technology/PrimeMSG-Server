@@ -1,4 +1,4 @@
-import Service from "../class/service";
+import { Service } from "@stexcore/api-engine";
 import fs from "fs";
 
 /**

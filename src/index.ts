@@ -1,19 +1,14 @@
-import Server from "./server";
+import { createServer } from "@stexcore/api-engine";
 import dotenv from "dotenv";
 
 // Load environments
 dotenv.config();
 
 // Create server instance
-const server = new Server();
-// Extract port server
-const port = Number(process.env.APP_PORT);
+const server = createServer({ 
+    port: Number(process.env.APP_PORT || 9000), 
+    workdir: __dirname
+});
 
-// Start server
-server.initialize(port)
-    .then(() => {
-        console.log("Server listenning on: http://localhost:" + port);
-    })
-    .catch((err) => {
-        console.error(err);
-    });
+// Initialize server
+server.initialize();

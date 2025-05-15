@@ -1,8 +1,7 @@
+import { Server, Service } from "@stexcore/api-engine";
 import { readFileSync } from "fs";
 import nodemailer from "nodemailer";
 import path from "path";
-import Service from "../class/service";
-import Server from "../server";
 
 /**
  * Email options

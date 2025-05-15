@@ -1,5 +1,6 @@
-import Service from "../class/service";
+import { Service } from "@stexcore/api-engine";
 import Instance from "../models/instance.model"
+import InstanceModel from "../models/instance.model";
 
 /**
  * Manage instances service
@@ -12,6 +13,8 @@ export default class InstancesService extends Service {
      * @returns All instances
      */
     public async GetAllInstances(user_id: number) {
+        // Get Instance model
+        const Instance = this.model$(InstanceModel);
 
         // instances data
         const instances = await Instance.findAll({
@@ -33,6 +36,8 @@ export default class InstancesService extends Service {
      * @returns Get instance
      */
     public async GetInstanceItem(instance_id: number, user_id: number) {
+        // Instance
+        const Instance = this.model$(InstanceModel);
 
         // instances info
         const instanceItem = await Instance.findOne({
@@ -51,6 +56,8 @@ export default class InstancesService extends Service {
      * @returns Instance Item
      */
     public async CreateInstance(data: { user_id: number, name: string, platform: string }) {
+        // Instance
+        const Instance = this.model$(InstanceModel);
 
         // Instance created
         const instance = await Instance.create({
@@ -70,6 +77,9 @@ export default class InstancesService extends Service {
      * @returns nCount affected
      */
     public async UpdateInstance(instance_id: number, user_id: number, data: { name: string, platform: string }) {
+        // Get instance
+        const Instance = this.model$(InstanceModel);
+        
         // Instance updated
         const [countUpdated] = await Instance.update({
             ...data
@@ -89,6 +99,9 @@ export default class InstancesService extends Service {
      * @param user_id User identifier
      */
     public async DeleteInstance(instance_id: number, user_id: number) {
+        // Get instance
+        const Instance = this.model$(InstanceModel);
+        
         // Destroy instance
         const countDeleted = await Instance.destroy({
             where: {

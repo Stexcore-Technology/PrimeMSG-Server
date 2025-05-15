@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
-import Controller from "../class/controller";
 import AuthService from "../services/auth.service";
+import { Controller } from "@stexcore/api-engine";
 
 /**
  * Handle server authentication
@@ -10,7 +10,7 @@ export default class AuthController extends Controller {
     /**
      * authentication service
      */
-    private auth: AuthService = this.server.getService(AuthService);
+    private auth: AuthService = this.$(AuthService);
 
     /**
      * Signup request 

@@ -1,15 +1,13 @@
-import schemaUtils from "../utils/schema.utils";
+import { createSchema } from "@stexcore/api-engine";
 
 /**
  * Schema to validate segment info
  */
-export default {
+export default createSchema({
 
     /**
      * Schema to validate
      */
-    GET: schemaUtils.createSchema({
-        
-    })
-    
-}
+    GET: { }
+
+})

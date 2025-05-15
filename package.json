@@ -17,6 +17,7 @@
   ],
   "license": "ISC",
   "dependencies": {
+    "@stexcore/api-engine": "file:../api-engine",
     "@stexcore/http-status": "^1.0.1",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/nodemailer": "^6.4.17",
@@ -27,6 +28,7 @@
     "morgan": "^1.10.0",
     "nodemailer": "^7.0.2",
     "sequelize": "^6.37.7",
+    "sqlite3": "^5.1.7",
     "whatsapp-web.js": "^1.27.0"
   },
   "devDependencies": {

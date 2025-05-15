@@ -1,10 +1,10 @@
 import { DataTypes, Model } from "sequelize";
-import connection from "~/database/connection";
+import { ModelConstructor } from "../types/model-constructor.type";
 
 /**
- * User Interface
+ * Unauthorized user Interface
  */
-export interface IUserUnauthorized {
+export interface IUnauthorizedUser {
     /**
      * Identifier
      */
@@ -40,90 +40,54 @@ export interface IUserUnauthorized {
 }
 
 /**
- * User unauthorized model
+ * Create a model to unauthorized users
+ * @param sequelize Sequelize connection
+ * @returns Model
  */
-class UserUnauthorized extends Model<
-    IUserUnauthorized, 
-    Omit<IUserUnauthorized, "id" | "try_counts" | "token"> & { 
-        try_counts?: IUserUnauthorized["try_counts"], 
-        token?: IUserUnauthorized["token"]
-    }
-> implements IUserUnauthorized {
-    /**
-     * User Unauthorized Identifier
-     */
-    declare id: number;
-    /**
-     * Email identifier
-     */
-    declare email: string;
-    /**
-     * Username identifier
-     */
-    declare username: string;
-    /**
-     * Password identifier
-     */
-    declare password: string;
-    /**
-     * Token validate
-     */
-    declare token: string;
-    /**
-     * Pin code
-     */
-    declare pin_code: string;
-    /**
-     * Trys counts
-     */
-    declare try_counts: number;
-    /**
-     * Expiration
-     */
-    declare expiration: Date;
+const UnauthorizedUserModel: ModelConstructor<IUnauthorizedUser, Omit<IUnauthorizedUser, "id" | "try_counts" | "token"> & { 
+    try_counts?: IUnauthorizedUser["try_counts"], 
+    token?: IUnauthorizedUser["token"]
+}> = (sequelize) => {
+
+    // Define Structure model
+    return sequelize.define<Model<IUnauthorizedUser> & IUnauthorizedUser>("unauthorized_users", {
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
+        },
+        username: {
+            type: DataTypes.CHAR(40),
+            allowNull: false
+        },
+        email: {
+            type: DataTypes.CHAR(40),
+            allowNull: false
+        },
+        password: {
+            type: DataTypes.CHAR(80),
+            allowNull: false
+        },
+        token: {
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
+            allowNull: false
+        },
+        pin_code: {
+            type: DataTypes.CHAR(6),
+            allowNull: false
+        },
+        expiration: {
+            type: DataTypes.DATE,
+            allowNull: false
+        },
+        try_counts: {
+            type: DataTypes.INTEGER,
+            defaultValue: 0,
+            allowNull: false
+        }
+    });
 }
 
-// Initialize structure
-UserUnauthorized.init({
-    id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
-    },
-    username: {
-        type: DataTypes.CHAR(40),
-        allowNull: false
-    },
-    email: {
-        type: DataTypes.CHAR(40),
-        allowNull: false
-    },
-    password: {
-        type: DataTypes.CHAR(80),
-        allowNull: false
-    },
-    token: {
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
-        allowNull: false
-    },
-    pin_code: {
-        type: DataTypes.CHAR(6),
-        allowNull: false
-    },
-    expiration: {
-        type: DataTypes.DATE,
-        allowNull: false
-    },
-    try_counts: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0,
-        allowNull: false
-    }
-}, {
-    sequelize: connection,
-    tableName: "users_unauthorized"
-});
-
-// export model
-export default UserUnauthorized;
+// Export model
+export default UnauthorizedUserModel;

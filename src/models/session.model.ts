@@ -1,5 +1,5 @@
 import { DataTypes, Model } from "sequelize";
-import connection from "~/database/connection";
+import { ModelConstructor } from "../types/model-constructor.type";
 
 /**
  * Session Interface
@@ -24,51 +24,34 @@ export interface ISession {
 }
 
 /**
- * Session model
+ * Create a model to sessions
+ * @param sequelize Sequelize connection
+ * @returns Model
  */
-class Session extends Model<ISession, Omit<ISession, "id" | "token"> | { token?: string }> implements ISession {
-    /**
-     * Session identifier
-     */
-    declare id: number;
-    /**
-     * User identifier
-     */
-    declare user_id: number;
-    /**
-     * Session token
-     */
-    declare token: string;
-    /**
-     * Session expiration
-     */
-    declare expiration: Date;
+const SessionModel: ModelConstructor<ISession, Omit<ISession, "id" | "token">> = (sequelize) => {
+
+    // Define Structure model
+    return sequelize.define<Model<ISession> & ISession>("sessions", {
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
+        },
+        user_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        token: {
+            type: DataTypes.UUID,
+            allowNull: false,
+            defaultValue: DataTypes.UUIDV4
+        },
+        expiration: {
+            type: DataTypes.DATE,
+            allowNull: false
+        }
+    });
 }
 
-// Initialize structure
-Session.init({
-    id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
-    },
-    user_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-    },
-    token: {
-        type: DataTypes.UUID,
-        allowNull: false,
-        defaultValue: DataTypes.UUIDV4
-    },
-    expiration: {
-        type: DataTypes.DATE,
-        allowNull: false
-    }
-}, {
-    sequelize: connection,
-    tableName: "sessions"
-});
-
-// Export session
-export default Session;
+// Export model
+export default SessionModel;

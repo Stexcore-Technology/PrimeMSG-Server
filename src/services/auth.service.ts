@@ -1,11 +1,14 @@
-import UserUnauthorized from "../models/user-unauthorized.model"
 import jwt from "jsonwebtoken";
-import User from "../models/user.model";
 import Session from "../models/session.model";
-import Instance, { type IInstance } from "../models/instance.model";
+import { type IInstance } from "../models/instance.model";
 import type { ILangType } from "../types/lang";
-import Service from "../class/service";
-import SMTPService from "./smtp.service";
+import SMTPService from "./_smtp.service";
+import { Service } from "@stexcore/api-engine";
+import InstanceModel from "../models/instance.model";
+import { ModelInstance } from "../types/model-constructor.type";
+import UserModel from "../models/user.model";
+import UnauthorizedUserModel from "../models/user-unauthorized.model";
+import SessionModel from "../models/session.model";
 
 /**
  * Session info
@@ -60,7 +63,7 @@ export default class AuthService extends Service {
     /**
      * Get SMTP Service
      */
-    private readonly smtp = this.server.getService(SMTPService);
+    private readonly smtp = this.$(SMTPService);
 
     /**
      * Create a request to create and send a verification link to email
@@ -77,6 +80,10 @@ export default class AuthService extends Service {
             langType: ILangType
         }
     ) {
+        // Get user model and unauthorized user
+        const User = this.model$(UserModel);
+        const UnauthorizedUser = this.model$(UnauthorizedUserModel);
+
         // Find user account
         const userAccount = await User.findOne({
             where: {
@@ -90,7 +97,7 @@ export default class AuthService extends Service {
         }
 
         // Remove another user authentication
-        await UserUnauthorized.destroy({
+        await UnauthorizedUser.destroy({
             where: {
                 email: data.email
             }
@@ -101,12 +108,12 @@ export default class AuthService extends Service {
         const expiration = new Date(Date.now() + 1.44e+7);
 
         // Create user unauhorized
-        const user = await UserUnauthorized.create({
+        const user = await UnauthorizedUser.create({
             email: data.email,
             username: data.username,
             password: data.password,
             expiration: expiration,
-            pin_code: pin_code,
+            pin_code: pin_code
         });
 
         // sign credentials token
@@ -138,6 +145,10 @@ export default class AuthService extends Service {
     public async AuthorizeRegisterByToken(token: string) {
 
         try {
+            // Get user model and unauthorized model
+            const User = this.model$(UserModel);
+            const UnauthorizedUser = this.model$(UnauthorizedUserModel);
+
             // Decode credentials
             const decoded = jwt.verify(token, String(process.env.JWT_KEY)) as {
                 version: string,
@@ -156,9 +167,8 @@ export default class AuthService extends Service {
                 });
 
                 if (!userAccount) {
-
                     // Find user unauthorized
-                    const userUnauthorized = await UserUnauthorized.findOne({
+                    const userUnauthorized = await UnauthorizedUser.findOne({
                         where: {
                             id: decoded.id,
                             email: decoded.email,
@@ -200,12 +210,16 @@ export default class AuthService extends Service {
      * @param user User info
      * @throws {this["UserNotFoundError"]}
      */
-    public async Login(user: User): Promise<ISessionInfo>;
+    public async Login(user: ModelInstance<typeof UserModel>): Promise<ISessionInfo>;
     public async Login(email: string, password: string): Promise<ISessionInfo>;
-    public async Login(email: string | User, password?: string): Promise<ISessionInfo> {
+    public async Login(email: string | ModelInstance<typeof UserModel>, password?: string): Promise<ISessionInfo> {
 
+        // Get model user and session
+        const User = this.model$(UserModel);
+        const Session = this.model$(SessionModel);
+        
         // Declare user var
-        let user: User;
+        let user: ModelInstance<typeof UserModel>;
 
         // Validate email instance
         if (email instanceof User) {
@@ -257,7 +271,9 @@ export default class AuthService extends Service {
      */
     public async getSessionInfoByToken(token: string) {
 
-        
+        // Get session model and user model
+        const Session = this.model$(SessionModel);
+        const User = this.model$(UserModel);
         
         // Session info
         const decoded = jwt.verify(token, String(process.env.JWT_KEY)) as {
@@ -302,7 +318,8 @@ export default class AuthService extends Service {
      * @param token Token Session
      * @returns Session info
      */
-    public async getSessionInfo(user: User, session: Session, token: string): Promise<ISessionInfo> {
+    public async getSessionInfo(user: ModelInstance<typeof UserModel>, session: ModelInstance<typeof Session>, token: string): Promise<ISessionInfo> {
+        const Instance = this.model$(InstanceModel);
 
         // get instances
         const instances = await Instance.findAll({
