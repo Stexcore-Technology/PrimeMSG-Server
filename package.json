@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node ./dist/index.js",
     "build": "tsc",
-    "dev": "nodemon ./src/index.ts",
+    "dev": "nodemon",
     "test": "ts-node ./src/index.ts"
   },
   "keywords": [
@@ -17,13 +17,13 @@
   ],
   "license": "ISC",
   "dependencies": {
-    "@stexcore/api-engine": "file:../api-engine",
+    "@stexcore/api-engine": "^2.0.0-alpha.6",
     "@stexcore/http-status": "^1.0.1",
+    "@types/express": "^5.0.3",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/nodemailer": "^6.4.17",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
-    "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
     "nodemailer": "^7.0.2",
@@ -32,7 +32,6 @@
     "whatsapp-web.js": "^1.27.0"
   },
   "devDependencies": {
-    "@types/express": "^5.0.1",
     "@types/morgan": "^1.9.9",
     "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",

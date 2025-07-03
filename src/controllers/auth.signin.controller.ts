@@ -1,6 +1,5 @@
-import { RequestHandler } from "express";
 import AuthService from "../services/auth.service";
-import { Controller } from "@stexcore/api-engine";
+import { Controller, IRequestHandler } from "@stexcore/api-engine";
 
 /**
  * Handle server authentication signin
@@ -18,7 +17,7 @@ export default class AuthSigninController extends Controller {
      * @param res Response utils
      * @param next Next middleware
      */
-    POST: RequestHandler = async (req, res, next) => {
+    POST: IRequestHandler = async (req, res, next) => {
         try {
             // Extract vars
             const { email, password } = req.body;
@@ -44,7 +43,7 @@ export default class AuthSigninController extends Controller {
      * @param res Response utils
      * @param next Next middleware
      */
-    GET: RequestHandler = async (req, res, next) => {
+    GET: IRequestHandler = async (req, res, next) => {
         try {
             // Get token session
             const authorization = req.headers.authorization!;

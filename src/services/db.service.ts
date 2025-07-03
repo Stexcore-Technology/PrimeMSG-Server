@@ -2,6 +2,9 @@ import { type Dialect, type ModelStatic, Sequelize } from "sequelize";
 import { type ModelConstructor } from "../types/model-constructor.type";
 import { Service, Server, Piece } from "@stexcore/api-engine";
 import UserModel from "../models/user.model";
+import InstanceModel from "../models/instance.model";
+import SessionModel from "../models/session.model";
+import UnauthorizedUserModel from "../models/unauthorized-user.model";
 
 /**
  * Declare extensions to Piece class
@@ -106,6 +109,9 @@ export default class DBService extends Service {
 
         // Register models
         this.registerModel(UserModel);
+        this.registerModel(InstanceModel);
+        this.registerModel(SessionModel);
+        this.registerModel(UnauthorizedUserModel);
 
         // Syncronize connection
         this.connection.sync({ });

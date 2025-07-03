@@ -2,12 +2,12 @@ import jwt from "jsonwebtoken";
 import Session from "../models/session.model";
 import { type IInstance } from "../models/instance.model";
 import type { ILangType } from "../types/lang";
-import SMTPService from "./_smtp.service";
+import SMTPService from "./smtp.service";
 import { Service } from "@stexcore/api-engine";
 import InstanceModel from "../models/instance.model";
 import { ModelInstance } from "../types/model-constructor.type";
 import UserModel from "../models/user.model";
-import UnauthorizedUserModel from "../models/user-unauthorized.model";
+import UnauthorizedUserModel from "../models/unauthorized-user.model";
 import SessionModel from "../models/session.model";
 
 /**

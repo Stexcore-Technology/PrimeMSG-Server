@@ -1,4 +1,4 @@
-import { RequestHandler } from "express";
+import { IRequestHandler } from "@stexcore/api-engine";
 import AuthService from "../services/auth.service";
 import { Controller } from "@stexcore/api-engine";
 
@@ -18,7 +18,7 @@ export default class AuthController extends Controller {
      * @param res Response utils
      * @param next Next middleware
      */
-    POST: RequestHandler = async (req, res, next) => {
+    POST: IRequestHandler = async (req, res, next) => {
         try {
             // Try to authorize a new account
             const session = await this.auth.AuthorizeRegisterByToken(req.params.tcp);

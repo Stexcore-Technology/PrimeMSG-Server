@@ -1,6 +1,5 @@
-import { RequestHandler } from "express";
 import InfoService from "../services/info.service";
-import { Controller } from "@stexcore/api-engine";
+import { Controller, IRequestHandler } from "@stexcore/api-engine";
 
 /**
  * Handle server information
@@ -18,7 +17,7 @@ export default class InfoController extends Controller {
      * @param res Response utils
      * @param next Next middleware
      */
-    public GET: RequestHandler = (_req, res, next) => {
+    public GET: IRequestHandler = (_req, res, next) => {
         try {
             // Response information server
             res.json({

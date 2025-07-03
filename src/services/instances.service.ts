@@ -1,6 +1,6 @@
 import { Service } from "@stexcore/api-engine";
-import Instance from "../models/instance.model"
 import InstanceModel from "../models/instance.model";
+import "./db.service";
 
 /**
  * Manage instances service

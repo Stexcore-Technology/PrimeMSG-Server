@@ -1,5 +1,4 @@
-import Joi from "joi";
-import { createSchema } from "@stexcore/api-engine";
+import { createSchema, joi } from "@stexcore/api-engine";
 
 /**
  * Schema to validate segment /auth/signup
@@ -10,8 +9,8 @@ export default createSchema({
      * Get current session
      */
     GET: {
-        headers: Joi.object({
-            authorization: Joi.required()
+        headers: joi.object({
+            authorization: joi.required()
         })
     },
 
@@ -19,9 +18,9 @@ export default createSchema({
      * Signin to account using email and password
      */
     POST: {
-        headers: Joi.object({
-            email: Joi.string().email().required(),
-            password: Joi.string().min(8).max(40).required()
+        body: joi.object({
+            email: joi.string().email().required(),
+            password: joi.string().min(8).max(40).required()
         })
     }
 });
